@@ -1,0 +1,4 @@
+procedure Main; begin
+var 132jfj integer
+<=	=	:= <>
+end
