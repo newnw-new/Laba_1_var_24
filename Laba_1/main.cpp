@@ -3,7 +3,7 @@
 
 int main() {
 	lexer lex("Test_code.txt");
-	while (!lex.read.eof()) {
+	while (!lex.end()) {
 		std::cout << lex.next_lexem() << '\n';
 	}
 }

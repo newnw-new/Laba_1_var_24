@@ -3,11 +3,8 @@
 #include <fstream>
 
 class lexer {
-public:
 	std::string file;
 	std::ifstream read;
-
-private:
 	int num_str = 0;
 	enum class states {Start, General, Oper1, Oper2};
 	states state = states::Start;
@@ -101,5 +98,9 @@ public:
 			read.get(symbol);
 		}
 		return lexem;
+	}
+
+	bool end() {
+		return read.eof();
 	}
 };
