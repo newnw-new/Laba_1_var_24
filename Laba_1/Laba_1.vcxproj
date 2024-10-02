@@ -130,6 +130,7 @@
     <ClInclude Include="dfa.h" />
     <ClInclude Include="dfa_parametrs.h" />
     <ClInclude Include="Lexer.h" />
+    <ClInclude Include="Token.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dfa.cpp" />

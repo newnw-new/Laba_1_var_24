@@ -13,6 +13,7 @@ class lexer {
 	enum class states {Start, General, Oper1, Oper2};
 	states state = states::Start;
 	char symbol; // текущий символ на котором остановился лексический анализатор
+	bool true_end = false;
 
 public:
 	lexer(const std::string& file_name) :file{ file_name } {
@@ -102,6 +103,12 @@ public:
 			}
 			read.get(symbol);
 		}
+		if (read.eof() && (lexem.size() > 0 && symbol == lexem[lexem.size()-1])
+			|| (lexem.size() == 0 && !true_end)) {
+			true_end = true;
+			if(lexem.size() == 0)
+				lexem = symbol;
+		}
 		try {
 			if (!lex_dfa.isAccept(lexem)) {
 				out << "undefined lexem \"" << lexem << "\" on line : " << num_str << '\n';
@@ -114,6 +121,6 @@ public:
 	}
 
 	bool end() {
-		return read.eof();
+		return true_end;
 	}
 };
