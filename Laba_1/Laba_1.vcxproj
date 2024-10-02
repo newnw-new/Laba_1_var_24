@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="dfa_parametrs.h" />
     <ClInclude Include="Lexer.h" />
   </ItemGroup>
   <ItemGroup>
