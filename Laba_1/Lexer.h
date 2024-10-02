@@ -1,11 +1,15 @@
 #pragma once
 #include <string>
 #include <fstream>
+#include "dfa.h"
+#include "dfa_parametrs.h"
 
 class lexer {
 	std::string file;
 	std::ifstream read;
-	int num_str = 0;
+	std::ofstream out;
+	int num_str = 1;
+	dfa lex_dfa{ 7, alp, fin_states_lex, trans_func_lex };
 	enum class states {Start, General, Oper1, Oper2};
 	states state = states::Start;
 	char symbol; // текущий символ на котором остановился лексический анализатор
@@ -14,13 +18,14 @@ public:
 	lexer(const std::string& file_name) :file{ file_name } {
 		read.open(file);
 		read.get(symbol);
+		out.open("output.txt");
 	};
 	lexer() = delete;
-
 	//Возвращает следующую лексему
 	std::string next_lexem() {
 		std::string lexem;
-		while (!read.eof()) {
+		bool flag = true;
+		while (!read.eof() && flag) {
 			switch (state) {
 			case states::Start:
 				if (symbol == '<') { 
@@ -35,7 +40,7 @@ public:
 					|| symbol == ',' || symbol == ';' || symbol == '=') {
 					lexem += symbol;
 					read.get(symbol);
-					return lexem;
+					flag = false;
 				}
 				else if (symbol == '\n') { num_str++; }
 				else if (symbol != ' ' && symbol != '\t') {
@@ -49,12 +54,12 @@ public:
 					|| symbol == '(' || symbol == ')' || symbol == '>'
 					|| symbol == '<' || symbol == ':' || symbol == '=') {
 					state = states::Start;
-					return lexem;
+					flag = false;
 				}
 				else if (symbol == '\n') {
 					num_str++;
 					state = states::Start;
-					return lexem;
+					flag = false;
 				}
 				else {
 					lexem += symbol;
@@ -65,16 +70,16 @@ public:
 					lexem += symbol;
 					state = states::Start;
 					read.get(symbol);
-					return lexem;
+					flag = false;
 				}
 				else if (symbol == '\n') {
 					num_str++;
 					state = states::Start;
-					return lexem;
+					flag = false;
 				}
 				else {
 					state = states::Start;
-					return lexem;
+					flag = false;
 				}
 				break;
 			case states::Oper2:
@@ -82,20 +87,28 @@ public:
 					lexem += symbol;
 					state = states::Start;
 					read.get(symbol);
-					return lexem;
+					flag = false;
 				}
 				else if (symbol == '\n') {
 					num_str++;
 					state = states::Start;
-					return lexem;
+					flag = false;
 				}
 				else {
 					state = states::Start;
-					return lexem;
+					flag = false;
 				}
 				break;
 			}
 			read.get(symbol);
+		}
+		try {
+			if (!lex_dfa.isAccept(lexem)) {
+				out << "undefined lexem \"" << lexem << "\" on line : " << num_str << '\n';
+			}
+		}
+		catch (...) {
+			out << "undefined lexem \"" << lexem << "\" on line : " << num_str << '\n';
 		}
 		return lexem;
 	}

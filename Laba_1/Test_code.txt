@@ -1,4 +1,4 @@
 procedure Main; begin
-var 132jfj integer
+var 132_jfj integer
 <=	=	:= <>
 end
