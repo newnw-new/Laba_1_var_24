@@ -6,8 +6,8 @@
 #include <iomanip>
 
 class token {
-	std::string type;
-	std::string lexem;
+	std::string type = "";
+	std::string lexem = "";
 
 public:
 	token(std::string lexem): lexem { lexem }{
@@ -36,6 +36,26 @@ public:
 		catch (...) {
 			type = "UNDEFINED";
 		}
+	}
+
+	token() = default;
+
+	std::string getType() const {
+		std::string clone = type;
+		return clone;
+	}
+
+	std::string getLexem() const {
+		std::string clone = lexem;
+		return clone;
+	}
+
+	bool operator == (const token& other_t) const{
+		return (other_t.type == this->type && other_t.lexem == this->lexem);
+	}
+
+	bool operator != (const token& other_t) const{
+		return !(*this == other_t);
 	}
 	
 	friend std::ostream& operator <<(std::ostream& os, const token& t);

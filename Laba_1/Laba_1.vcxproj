@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClInclude Include="dfa.h" />
     <ClInclude Include="dfa_parametrs.h" />
+    <ClInclude Include="hashTable.h" />
     <ClInclude Include="Lexer.h" />
     <ClInclude Include="Token.h" />
   </ItemGroup>
