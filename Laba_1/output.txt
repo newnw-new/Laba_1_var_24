@@ -1,2 +1,14 @@
-undefined lexem "132jfj" on line : 2
-undefined lexem "barba1" on line : 3
+ 4669 |             KEYWORD |           procedure |
+ 1089 |                 VAR |                Main |
+ 6517 |             KEYWORD |               begin |
+ 7129 |             KEYWORD |                 var |
+ 9364 |           UNDEFINED |              132jfj |
+ 4750 |             KEYWORD |             integer |
+ 7353 |           UNDEFINED |              barba1 |
+ 6121 |                  OP |                  <= |
+   61 |                  OP |                   = |
+ 5919 |                  OP |                  := |
+ 6122 |                  OP |                  <> |
+ 5958 |               CONST |                 545 |
+ 2311 |             KEYWORD |                 end |
+ 4669 |             KEYWORD |           procedure |

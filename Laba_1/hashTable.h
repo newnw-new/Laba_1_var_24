@@ -50,16 +50,18 @@ public:
 	}
 
 	void add(const token& t) {
-		long long ind = HashFunc(t);
-		while (massive[ind] != token()) {
-			ind = (ind+1)%size;
-			if (ind == HashFunc(t)) {
-				re_create();
-				add(t);
-				return;
+		if (this->find(t) == -1) {
+			long long ind = HashFunc(t);
+			while (massive[ind] != token()) {
+				ind = (ind + 1) % size;
+				if (ind == HashFunc(t)) {
+					re_create();
+					add(t);
+					return;
+				}
 			}
+			massive[ind] = t;
 		}
-		massive[ind] = t;
 	}
 
 	long long find(const token& t) const {

@@ -3,3 +3,4 @@ var 132jfj integer
 barba1
 <=	=	:= <> 545
 end;
+procedure

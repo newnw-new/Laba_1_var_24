@@ -7,6 +7,7 @@
 class lexer {
 	std::string file;
 	std::ifstream read;
+	std::string output_file;
 	std::ofstream out;
 	int num_line = 1;
 	dfa lex_dfa{ 7, alp, fin_states_lex, trans_func_lex };
@@ -16,11 +17,11 @@ class lexer {
 	bool true_end = false;
 
 public:
-	lexer(const std::string& file_name) :file{ file_name } {
+	lexer(const std::string& file_name, const std::string& output_name = "output.txt") :file{ file_name }, output_file{ output_name } {
 		read.open(file);
 		if(!read.eof())
 			read.get(symbol);
-		out.open("output.txt");
+		out.open(output_file);
 	};
 	lexer() = delete;
 	//Возвращает следующую лексему
