@@ -1,4 +1,5 @@
 procedure Main; begin
 var 132jfj integer
+barba1
 <=	=	:= <> 545
 end;

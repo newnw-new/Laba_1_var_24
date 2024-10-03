@@ -1,1 +1,2 @@
 undefined lexem "132jfj" on line : 2
+undefined lexem "barba1" on line : 3

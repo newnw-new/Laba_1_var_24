@@ -8,7 +8,7 @@ class lexer {
 	std::string file;
 	std::ifstream read;
 	std::ofstream out;
-	int num_str = 1;
+	int num_line = 1;
 	dfa lex_dfa{ 7, alp, fin_states_lex, trans_func_lex };
 	enum class states {Start, General, Oper1, Oper2};
 	states state = states::Start;
@@ -18,7 +18,8 @@ class lexer {
 public:
 	lexer(const std::string& file_name) :file{ file_name } {
 		read.open(file);
-		read.get(symbol);
+		if(!read.eof())
+			read.get(symbol);
 		out.open("output.txt");
 	};
 	lexer() = delete;
@@ -26,6 +27,7 @@ public:
 	std::string next_lexem() {
 		std::string lexem;
 		bool flag = true;
+		bool next_line = false;
 		while (!read.eof() && flag) {
 			switch (state) {
 			case states::Start:
@@ -43,7 +45,7 @@ public:
 					read.get(symbol);
 					flag = false;
 				}
-				else if (symbol == '\n') { num_str++; }
+				else if (symbol == '\n') { num_line++; }
 				else if (symbol != ' ' && symbol != '\t') {
 					lexem += symbol;
 					state = states::General;
@@ -58,7 +60,7 @@ public:
 					flag = false;
 				}
 				else if (symbol == '\n') {
-					num_str++;
+					next_line = true;
 					state = states::Start;
 					flag = false;
 				}
@@ -74,7 +76,7 @@ public:
 					flag = false;
 				}
 				else if (symbol == '\n') {
-					num_str++;
+					next_line = true;
 					state = states::Start;
 					flag = false;
 				}
@@ -91,7 +93,7 @@ public:
 					flag = false;
 				}
 				else if (symbol == '\n') {
-					num_str++;
+					next_line = true;
 					state = states::Start;
 					flag = false;
 				}
@@ -111,12 +113,14 @@ public:
 		}
 		try {
 			if (!lex_dfa.isAccept(lexem)) {
-				out << "undefined lexem \"" << lexem << "\" on line : " << num_str << '\n';
+				out << "undefined lexem \"" << lexem << "\" on line : " << num_line << '\n';
 			}
 		}
 		catch (...) {
-			out << "undefined lexem \"" << lexem << "\" on line : " << num_str << '\n';
+			out << "undefined lexem \"" << lexem << "\" on line : " << num_line << '\n';
 		}
+		if (next_line)
+			num_line++;
 		return lexem;
 	}
 
