@@ -1,5 +1,5 @@
 ﻿  main.cpp
-C:\Users\kibor\source\repos\Laba_1\Laba_1\hashTable.h(15,27): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\kibor\source\repos\Laba_1\Laba_1\hashTable.h(14,27): warning C4018: <: несоответствие типов со знаком и без знака
   (компиляция исходного файла "main.cpp")
   
   Laba_1.vcxproj -> C:\Users\kibor\source\repos\Laba_1\x64\Debug\Laba_1.exe

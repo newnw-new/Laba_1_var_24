@@ -8,11 +8,13 @@
 
 int main() {
 	std::ofstream out("output.txt");
-	lexer lex("Test_code.txt", "error.txt");
+	lexer lex("Test_code.txt");
 	HashTable table;
 	while (!lex.end()) {
 		token t(lex.next_lexem());
-		table.add(t);
-		out << std::setw(5) << table.find(t) << " |" << t << '\n';
+		if (t.getType() != "UNDEFINED") {
+			table.add(t);
+			out << std::setw(5) << table.find(t) << " |" << t << '\n';
+		}
 	}
 }

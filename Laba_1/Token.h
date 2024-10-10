@@ -6,8 +6,8 @@
 #include <iomanip>
 
 class token {
-	std::string type = "";
-	std::string lexem = "";
+	std::string type;
+	std::string lexem;
 
 public:
 	token(std::string lexem): lexem { lexem }{
@@ -41,13 +41,11 @@ public:
 	token() = default;
 
 	std::string getType() const {
-		std::string clone = type;
-		return clone;
+		return type;
 	}
 
 	std::string getLexem() const {
-		std::string clone = lexem;
-		return clone;
+		return lexem;
 	}
 
 	bool operator == (const token& other_t) const{
