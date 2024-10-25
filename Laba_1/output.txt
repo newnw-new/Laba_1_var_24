@@ -4,15 +4,20 @@
  6517 |             KEYWORD |               begin |
  7129 |             KEYWORD |                 var |
  4750 |             KEYWORD |             integer |
- 6121 |                  OP |                  <= |
+   60 |                  OP |                   < |
+   61 |                  OP |                   = |
    61 |                  OP |                   = |
  5919 |                  OP |                  := |
  6122 |                  OP |                  <> |
  5958 |               CONST |                 545 |
+   60 |                  OP |                   < |
+   62 |                  OP |                   > |
  2311 |             KEYWORD |                 end |
    59 |                 SEP |                   ; |
    59 |                 SEP |                   ; |
    59 |                 SEP |                   ; |
+   58 |                 SEP |                   : |
+   58 |                 SEP |                   : |
  3508 |                 VAR |                enda |
  4441 |             KEYWORD |              repeat |
  5556 |             KEYWORD |               until |

@@ -23,7 +23,7 @@ public:
 			else if (dfa(2, alp, fin_states_VAR, trans_func_VAR).isAccept(this->lexem)) {
 				type = "VAR";
 			}
-			else if (dfa(5, alp, fin_states_OP, trans_func_OP).isAccept(this->lexem)) {
+			else if (dfa(4, alp, fin_states_OP, trans_func_OP).isAccept(this->lexem)) {
 				type = "OP";
 			}
 			else if (dfa(2, alp, fin_states_SEP, trans_func_SEP).isAccept(this->lexem)) {

@@ -10,8 +10,8 @@ class lexer {
 	std::string output_file;
 	std::ofstream out;
 	int num_line = 1;
-	dfa lex_dfa{ 7, alp, fin_states_lex, trans_func_lex };
-	enum class states {Start, General, Oper1, Oper2};
+	dfa lex_dfa{ 6, alp, fin_states_lex, trans_func_lex };
+	enum class states {Start, General, Oper1};
 	char symbol; // текущий символ на котором остановился лексический анализатор
 
 public:
@@ -33,16 +33,12 @@ public:
 		while (!read.eof() && flag) {
 			switch (state) {
 			case states::Start:
-				if (symbol == '<') { 
+				if (symbol == '<' || symbol == ':') {
 					lexem += symbol;
 					state = states::Oper1; 
 				}
-				else if (symbol == '>' || symbol == ':') {
-					lexem += symbol;
-					state = states::Oper2; 
-				}
 				else if (symbol == '+' || symbol == '-' || symbol == '(' || symbol == ')'
-					|| symbol == ',' || symbol == ';' || symbol == '=') {
+					|| symbol == ',' || symbol == ';' || symbol == '=' || symbol == '>') {
 					lexem += symbol;
 					read.get(symbol);
 					flag = false;
@@ -70,30 +66,10 @@ public:
 				}
 				break;
 			case states::Oper1:
-				if (symbol == '>' || symbol == '=') {
+				if ((lexem == "<" && symbol == '>') || (lexem == ":" && symbol == '=')) {
 					lexem += symbol;
 					state = states::Start;
 					read.get(symbol);
-					flag = false;
-				}
-				else if (symbol == '\n') {
-					state = states::Start;
-					flag = false;
-				}
-				else {
-					state = states::Start;
-					flag = false;
-				}
-				break;
-			case states::Oper2:
-				if (symbol == '=') {
-					lexem += symbol;
-					state = states::Start;
-					read.get(symbol);
-					flag = false;
-				}
-				else if (symbol == '\n') {
-					state = states::Start;
 					flag = false;
 				}
 				else {
