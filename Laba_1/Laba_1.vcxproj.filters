@@ -30,9 +30,6 @@
     <ClInclude Include="hashTable.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Grammar.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="Situation.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
