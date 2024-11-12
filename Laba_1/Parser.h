@@ -5,19 +5,27 @@
 #include <set>
 #include "Situation.h"
 #include <fstream>
-//#include <fstream>
-
 
 
 class parser {
 
+	std::string name_file;
+	std::string out_file;
 	std::vector <std::vector
 		<std::vector
 		<std::pair<std::string, std::string>>>> grammar;
 	lexer lex;
 	std::ofstream out;
-	
 
+public:
+	//Имя файла, имя файла для ошибок, грамматика, режим записи (дозапись в файл ошибок или новая запись)
+	parser(const std::string& name_file, const std::string& out_file, const std::vector <std::vector
+		<std::vector
+		<std::pair<std::string, std::string>>>>&grammar, const bool add_or_not = 0)
+		:name_file{ name_file }, out_file{ out_file }, grammar{ grammar },
+		out{ out_file, add_or_not ? std::ios::app : std::ios::out }, lex{ name_file, out_file, 1 } {}
+
+private:
 	void Scan(std::vector<std::set<situation>>& D, const token& lexem) {
 		unsigned D_size = D.size();
 		unsigned S_size = D[D_size - 1].size();
@@ -53,5 +61,9 @@ class parser {
 				}
 			}
 		}
+	}
+
+	void Predict(std::vector<std::set<situation>>& D, const token& lexem) {
+
 	}
 };

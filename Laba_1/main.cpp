@@ -8,7 +8,7 @@
 
 int main() {
 	std::ofstream out("output.txt");
-	lexer lex("Test_code.txt");
+	lexer lex("Test_code.txt", "error.txt");
 	HashTable table;
 	while (!lex.end()) {
 		token t(lex.next_lexem());

@@ -15,13 +15,14 @@ class lexer {
 	char symbol; // текущий символ на котором остановился лексический анализатор
 
 public:
-	lexer(const std::string& file_name, const std::string& output_name = "error.txt") :file{ file_name }, output_file{ output_name } {
-		read.open(file);
+	lexer(const std::string& file_name, const std::string& output_name, const bool app_or_not = 0) // имя файла чтения, имя файла для ошибок, режим записи
+		:file{ file_name }, output_file{ output_name },
+		out{ output_file, app_or_not? std::ios::app:std::ios::out}, read{file_name}
+	{
 		if (!read.eof())
 			read.get(symbol);
 		else
 			throw "File is Empty!";
-		out.open(output_file);
 	};
 	lexer() = delete;
 	//Возвращает следующую лексему
