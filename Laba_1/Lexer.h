@@ -11,7 +11,7 @@ class lexer {
 	std::ofstream out;
 	int num_line = 1;
 	dfa lex_dfa{ 6, alp, fin_states_lex, trans_func_lex };
-	enum class states {Start, General, Oper1};
+	enum class states {Start, General, Oper};
 	char symbol; // текущий символ на котором остановился лексический анализатор
 
 public:
@@ -35,7 +35,7 @@ public:
 			case states::Start:
 				if (symbol == '<' || symbol == ':') {
 					lexem += symbol;
-					state = states::Oper1; 
+					state = states::Oper; 
 				}
 				else if (symbol == '+' || symbol == '-' || symbol == '(' || symbol == ')'
 					|| symbol == ',' || symbol == ';' || symbol == '=' || symbol == '>') {
@@ -65,7 +65,7 @@ public:
 					lexem += symbol;
 				}
 				break;
-			case states::Oper1:
+			case states::Oper:
 				if ((lexem == "<" && symbol == '>') || (lexem == ":" && symbol == '=')) {
 					lexem += symbol;
 					state = states::Start;

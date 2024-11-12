@@ -56,8 +56,28 @@ public:
 		return !(*this == other_t);
 	}
 	
+	friend bool operator == (const std::pair<std::string, std::string>& other_t, const token& t);
+	friend bool operator == (const token& t, const std::pair<std::string, std::string>& other_t);
+	friend bool operator != (const std::pair<std::string, std::string>& other_t, const token& t);
+	friend bool operator != (const token& t, const std::pair<std::string, std::string>& other_t);
 	friend std::ostream& operator <<(std::ostream& os, const token& t);
 };
+
+bool operator == (const std::pair<std::string, std::string>& other_t, const token& t) {
+	return (other_t.first == t.type && other_t.second == t.lexem);
+}
+
+bool operator == (const token& t, const std::pair<std::string, std::string>& other_t) {
+	return other_t == t;
+}
+
+bool operator != (const std::pair<std::string, std::string>& other_t, const token& t) {
+	return !(other_t == t);
+}
+
+bool operator != (const token& t, const std::pair<std::string, std::string>& other_t) {
+	return !(other_t == t);
+}
 
 std::ostream& operator << (std::ostream& os, const token& t) {
 	return os << std::setw(20) << t.type << " |" << std::setw(20) << t.lexem << " |";
