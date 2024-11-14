@@ -1,11 +1,11 @@
-#pragma once
+п»ї#pragma once
 #include "Lexer.h"
 #include "Token.h"
 #include <string>
-#include <set>
+//#include <set>
 #include "Situation.h"
 #include <fstream>
-#include <functional>
+//#include <functional>
 #include <iostream>
 
 
@@ -20,7 +20,7 @@ class parser {
 	std::ofstream out;
 
 public:
-	//Имя файла, имя файла для ошибок, грамматика, режим записи (дозапись в файл ошибок или новая запись)
+	//Г€Г¬Гї ГґГ Г©Г«Г , ГЁГ¬Гї ГґГ Г©Г«Г  Г¤Г«Гї Г®ГёГЁГЎГ®ГЄ, ГЈГ°Г Г¬Г¬Г ГІГЁГЄГ , Г°ГҐГ¦ГЁГ¬ Г§Г ГЇГЁГ±ГЁ (Г¤Г®Г§Г ГЇГЁГ±Гј Гў ГґГ Г©Г« Г®ГёГЁГЎГ®ГЄ ГЁГ«ГЁ Г­Г®ГўГ Гї Г§Г ГЇГЁГ±Гј)
 	parser(const std::string name_file, const std::string out_file, const std::vector <std::vector
 		<std::vector
 		<std::pair<std::string, std::string>>>>&grammar, const bool add_or_not = 0)
@@ -28,29 +28,45 @@ public:
 		out{ out_file, add_or_not ? std::ios::app : std::ios::out }, lex{ name_file, out_file, 1 } {}
 
 private:
-	void Scan(std::vector<std::set<situation, std::function<bool(const situation&, const situation&)>>>& D, const token& lexem) {
+
+	bool find(const std::vector<situation>& vec, const situation& a) const {
+		for (int i = 0; i < vec.size(); ++i) {
+			if (vec[i] == a) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void Scan(std::vector<std::vector<situation>>& D, const token& lexem) {
 		unsigned D_size = D.size();
 		unsigned S_size = D[D_size - 1].size();
 		for (situation i : D[D_size - 2]) {
-			if (i.dot != grammar[i.rule][i.sub_rule].size() && 
-				grammar[i.rule][i.sub_rule][i.dot].first != "N") // Если точка не стоит в конце ситуации и точка стоит перед терминалом
+			if (i.dot != grammar[i.rule][i.sub_rule].size() &&
+				grammar[i.rule][i.sub_rule][i.dot].first != "N") // Г…Г±Г«ГЁ ГІГ®Г·ГЄГ  Г­ГҐ Г±ГІГ®ГЁГІ Гў ГЄГ®Г­Г¶ГҐ Г±ГЁГІГіГ Г¶ГЁГЁ ГЁ ГІГ®Г·ГЄГ  Г±ГІГ®ГЁГІ ГЇГҐГ°ГҐГ¤ ГІГҐГ°Г¬ГЁГ­Г Г«Г®Г¬
 			{
 				if ((grammar[i.rule][i.sub_rule][i.dot] == lexem) ||
 					((grammar[i.rule][i.sub_rule][i.dot].first == "VAR" && lexem.getType() == "VAR") ||
-						(grammar[i.rule][i.sub_rule][i.dot].first == "CONTS" && lexem.getType() == "CONTS"))) { // Если терминал равен лексеме то вставляем его в множество ситуаций D[D_size-1]
-					D[D_size - 1].insert(situation(i.rule, i.sub_rule, i.dot + 1, i.sym_index));
+						(grammar[i.rule][i.sub_rule][i.dot].first == "CONST" && lexem.getType() == "CONST"))) { // Г…Г±Г«ГЁ ГІГҐГ°Г¬ГЁГ­Г Г« Г°Г ГўГҐГ­ Г«ГҐГЄГ±ГҐГ¬ГҐ ГІГ® ГўГ±ГІГ ГўГ«ГїГҐГ¬ ГҐГЈГ® Гў Г¬Г­Г®Г¦ГҐГ±ГІГўГ® Г±ГЁГІГіГ Г¶ГЁГ© D[D_size-1]
+					situation a(i.rule, i.sub_rule, i.dot + 1, i.sym_index);
+					if (!find(D[D_size - 1], a)) {
+						D[D_size - 1].push_back(a);
+					}
 				}
 			}
 		}
-		// Если не одна из ситуаций из пред. множества не подошла, то записываю все ситуации в тек. множество, 
-		// которые бы в теории могли бы подойти если бы все было корректно
-		// И вывожу ошибку в файл
-		if (S_size == D[D_size - 1].size()) { 
+		// Г…Г±Г«ГЁ Г­ГҐ Г®Г¤Г­Г  ГЁГ§ Г±ГЁГІГіГ Г¶ГЁГ© ГЁГ§ ГЇГ°ГҐГ¤. Г¬Г­Г®Г¦ГҐГ±ГІГўГ  Г­ГҐ ГЇГ®Г¤Г®ГёГ«Г , ГІГ® Г§Г ГЇГЁГ±Г»ГўГ Гѕ ГўГ±ГҐ Г±ГЁГІГіГ Г¶ГЁГЁ Гў ГІГҐГЄ. Г¬Г­Г®Г¦ГҐГ±ГІГўГ®, 
+		// ГЄГ®ГІГ®Г°Г»ГҐ ГЎГ» Гў ГІГҐГ®Г°ГЁГЁ Г¬Г®ГЈГ«ГЁ ГЎГ» ГЇГ®Г¤Г®Г©ГІГЁ ГҐГ±Г«ГЁ ГЎГ» ГўГ±ГҐ ГЎГ»Г«Г® ГЄГ®Г°Г°ГҐГЄГІГ­Г®
+		// Г€ ГўГ»ГўГ®Г¦Гі Г®ГёГЁГЎГЄГі Гў ГґГ Г©Г«
+		if (S_size == D[D_size - 1].size()) {
 			for (situation i : D[D_size - 2]) {
 				if (i.dot != grammar[i.rule][i.sub_rule].size() &&
-					grammar[i.rule][i.sub_rule][i.dot].first != "N") 
+					grammar[i.rule][i.sub_rule][i.dot].first != "N")
 				{
-					D[D_size - 1].insert(situation(i.rule, i.sub_rule, i.dot + 1, i.sym_index));
+					situation a(i.rule, i.sub_rule, i.dot + 1, i.sym_index);
+					if (!find(D[D_size - 1], a)) {
+						D[D_size - 1].push_back(a);
+					}
 					if (grammar[i.rule][i.sub_rule][i.dot].first != "VAR" && grammar[i.rule][i.sub_rule][i.dot].first != "CONST") {
 						out << "Assuming lexem '" << grammar[i.rule][i.sub_rule][i.dot].second << "' instead of '" << lexem.getLexem() << "'\n";
 					}
@@ -65,58 +81,70 @@ private:
 		}
 	}
 
-	void Predict(std::vector<std::set<situation, std::function<bool(const situation&, const situation&)>>>& D) {
+	void Predict(std::vector<std::vector<situation>>& D) {
 		unsigned D_size = D.size();
-		for (situation i : D[D_size - 1]) {
-			if (i.dot != grammar[i.rule][i.sub_rule].size() && grammar[i.rule][i.sub_rule][i.dot].first == "N") {
-				unsigned R_index = std::stoi(grammar[i.rule][i.sub_rule][i.dot].second); // номер продукции
-				unsigned R_size = grammar[R_index].size(); // количество правил в продукции
+		for (int i = 0; i < D[D_size - 1].size(); ++i) {
+			situation i_sit(D[D_size - 1][i]);
+			if (i_sit.dot != grammar[i_sit.rule][i_sit.sub_rule].size() && grammar[i_sit.rule][i_sit.sub_rule][i_sit.dot].first == "N") {
+				unsigned R_index = std::stoi(grammar[i_sit.rule][i_sit.sub_rule][i_sit.dot].second); // Г­Г®Г¬ГҐГ° ГЇГ°Г®Г¤ГіГЄГ¶ГЁГЁ
+				unsigned R_size = grammar[R_index].size(); // ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГЇГ°Г ГўГЁГ« Гў ГЇГ°Г®Г¤ГіГЄГ¶ГЁГЁ
 				for (unsigned j = 0; j < R_size; ++j) {
-					D[D_size - 1].insert(situation(R_index, j, 0, D_size - 1));
+					situation a(R_index, j, 0, D_size - 1);
+					if (!find(D[D_size - 1], a)) {
+						D[D_size - 1].push_back(a);
+					}
+					//show(D, D_size - 1);
+					//std::cout << j << '\n';
 				}
 			}
 		}
 	}
 
-	void Complete(std::vector<std::set<situation, std::function<bool(const situation&, const situation&)>>>& D) {
+	void Complete(std::vector<std::vector<situation>>& D) {
 		unsigned D_size = D.size();
-		for (situation i : D[D_size - 1]) {
-			if (i.dot == grammar[i.rule][i.sub_rule].size()) {
-				
-				for (situation j : D[i.sym_index]) {
-					//Если точка не в конце если она стоит перед терминалом и если стоит перед нужным правилом
-					if (j.dot != grammar[j.rule][j.sub_rule].size()
-						&& (grammar[j.rule][j.sub_rule][j.dot].first == "N"
-							&& std::stoi(grammar[j.rule][j.sub_rule][j.dot].second) == i.rule)) {
-						D[D_size - 1].insert(situation(j.rule, j.sub_rule, j.dot + 1, j.sym_index));
+		for (unsigned i = 0; i < D[D_size - 1].size(); ++i) {
+			situation i_sit(D[D_size - 1][i]);
+			if (i_sit.dot == grammar[i_sit.rule][i_sit.sub_rule].size()) {
+
+				for (unsigned j = 0; j < D[i_sit.sym_index].size(); ++j) {
+					//Г…Г±Г«ГЁ ГІГ®Г·ГЄГ  Г­ГҐ Гў ГЄГ®Г­Г¶ГҐ ГҐГ±Г«ГЁ Г®Г­Г  Г±ГІГ®ГЁГІ ГЇГҐГ°ГҐГ¤ ГІГҐГ°Г¬ГЁГ­Г Г«Г®Г¬ ГЁ ГҐГ±Г«ГЁ Г±ГІГ®ГЁГІ ГЇГҐГ°ГҐГ¤ Г­ГіГ¦Г­Г»Г¬ ГЇГ°Г ГўГЁГ«Г®Г¬
+					situation j_sit(D[i_sit.sym_index][j]);
+					if (j_sit.dot != grammar[j_sit.rule][j_sit.sub_rule].size()
+						&& (grammar[j_sit.rule][j_sit.sub_rule][j_sit.dot].first == "N"
+							&& std::stoi(grammar[j_sit.rule][j_sit.sub_rule][j_sit.dot].second) == i_sit.rule)) {
+						situation a(j_sit.rule, j_sit.sub_rule, j_sit.dot + 1, j_sit.sym_index);
+						if (!find(D[D_size - 1], a)) {
+							D[D_size - 1].push_back(a);
+						}
 					}
 				}
 			}
 		}
 	}
 
-	void show(std::vector<std::set<situation, std::function<bool(const situation&, const situation&)>>>& D, const unsigned& i) {
+	/*void show(std::vector<std::vector<situation>>& D, const unsigned& i) {
 		std::cout << "---------------\n";
 		for (situation j : D[i]) {
 			std::cout << j.rule << " " << j.sub_rule << " " << j.dot << " " << j.sym_index << '\n';
 		}
-	}
+	}*/
 
 public:
-	std::vector<std::set<situation, std::function<bool(const situation&, const situation&)>>> algo_Erli() {
-		std::vector<std::set<situation, std::function<bool(const situation&, const situation&)>>> parse_list;
-		parse_list.push_back(std::set<situation, std::function<bool(const situation&, const situation&)>>(comp_sit));
-		parse_list[0].insert(situation(0, 0, 0, 0));
+	std::vector<std::vector<situation>> algo_Erli() {
+		std::vector<std::vector<situation>> parse_list;
+		parse_list.push_back(std::vector<situation>());
+		parse_list[0].push_back(situation(0, 0, 0, 0));
 		unsigned Pars_set_size = 0;
 		while (Pars_set_size != parse_list[0].size()) {
 			Pars_set_size = parse_list[0].size();
 			Predict(parse_list);
 			Complete(parse_list);
 		}
+		//show(parse_list, 0);
 
-		token next_lexm(lex.next_lexem());
 		for (unsigned i = 1; !lex.end(); ++i) {
-			parse_list.push_back(std::set<situation, std::function<bool(const situation&, const situation&)>>(comp_sit));
+			token next_lexm(lex.next_lexem());
+			parse_list.push_back(std::vector<situation>());
 			Scan(parse_list, next_lexm);
 			Pars_set_size = 0;
 			while (Pars_set_size != parse_list[i].size()) {
@@ -124,9 +152,11 @@ public:
 				Predict(parse_list);
 				Complete(parse_list);
 			}
-			next_lexm = lex.next_lexem();
-			show(parse_list, i);
+			/*show(parse_list, i);
+			std::cout << next_lexm.getLexem() << " " << i << '\n';*/
 		}
+		/*show(parse_list, parse_list.size());
+		std::cout << next_lexm.getLexem() << " " << parse_list.size() << '\n';*/
 
 		return parse_list;
 	}
