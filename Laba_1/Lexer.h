@@ -15,7 +15,7 @@ class lexer {
 	char symbol; // текущий символ на котором остановился лексический анализатор
 
 public:
-	lexer(const std::string& file_name, const std::string& output_name, const bool app_or_not = 0) // имя файла чтения, имя файла для ошибок, режим записи
+	lexer(const std::string file_name, const std::string output_name, const bool app_or_not = 0) // имя файла чтения, имя файла для ошибок, режим записи
 		:file{ file_name }, output_file{ output_name },
 		out{ output_file, app_or_not? std::ios::app:std::ios::out}, read{file_name}
 	{

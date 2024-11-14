@@ -13,7 +13,7 @@ std::vector<std::vector<std::vector<std::pair<std::string, std::string>>>> my_gr
 	{{"N", "7"}, {"N", "6"}}}, //DescrList-> Descr | Descr DescrList (6)
 	{{{"N", "8"}, {"SEP", ":"}, {"N", "9"}, {"SEP", ";"}}}, //Descr-> VarList : Type ; (7)
 	{{{"N", "16"}},
-	{{"N", "16"}, {"SEP", ";"}, {"N", "9"}}}, // VarList -> Id | Id , VarList (8)
+	{{"N", "16"}, {"SEP", ","}, {"N", "8"}}}, // VarList -> Id | Id , VarList (8)
 	{{{"KEYWORD", "integer"}}}, // Type-> integer (9)
 	{{{"N", "11"}},
 	{{"N", "11"}, {"N", "10"}}}, // Operators -> Op | Op Operators (10)
@@ -30,7 +30,7 @@ std::vector<std::vector<std::vector<std::pair<std::string, std::string>>>> my_gr
 	{{"OP", "<>"}},
 	{{"OP", "<"}},
 	{{"OP", ">"}}}, // RelationOperator-> = | <> | < | > (15)
-	{{{"VAR", ""}}}, // Id -> id_name
-	{{{"CONST", ""}}} // Const-> id_num
+	{{{"VAR", ""}}}, // Id -> id_name (16)
+	{{{"CONST", ""}}} // Const-> id_num (17)
 };
 
