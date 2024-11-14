@@ -92,6 +92,15 @@ private:
 		}
 		else {
 			D.pop_back();
+			for (situation i : D[D_size - 2]) {
+				if (i.dot != grammar[i.rule][i.sub_rule].size() &&
+					grammar[i.rule][i.sub_rule][i.dot].first != "N")
+				{
+					if (!find(D[D_size - 1], i)) {
+						D[D_size - 1].push_back(i);
+					}
+				}
+			}
 			Out_errors(possible_situations, lexem, 0);
 		}
 
