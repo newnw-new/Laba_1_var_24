@@ -5,6 +5,7 @@
 #include "Situation.h"
 #include <fstream>
 #include "Tree.h"
+#include "Token_table.h"
 
 
 class parser {
@@ -43,7 +44,7 @@ private:
 				int rule = stoi(grammar[a.rule][a.sub_rule][i].second);
 				for (situation j : parse_list[count_lexms]) {
 					if (j.rule == rule && j.dot == grammar[j.rule][j.sub_rule].size()) {
-						Node* son = new Node(grammar[a.rule][a.sub_rule][i].second);
+						Node* son = new Node(stoul(grammar[a.rule][a.sub_rule][i].second));
 						root->add(son);
 						std::vector<Node*> children = root->getChildren();
 						R(children[children.size() - 1], parse_list, count_lexms, j);
@@ -52,43 +53,45 @@ private:
 			}
 			else
 			{
-				Node* son = new Node(grammar[a.rule][a.sub_rule][i].second);
+				Node* son = new Node(count_lexms-1);
 				root->add(son);
 				count_lexms--;
 			}
 		}
 	}
 
-	void Out_errors(const std::vector<situation>& possible_sits, const token& lexem, const bool mode) {
+	void Out_errors(const std::vector<situation>& possible_sits, const std::pair<token, unsigned>& info, const bool mode) {
+		token lexem(info.first);
 		if (mode) {
 			for (situation i : possible_sits) {
 				if (grammar[i.rule][i.sub_rule][i.dot].first != "VAR" && grammar[i.rule][i.sub_rule][i.dot].first != "CONST") {
-					out << "Missing lexem '" << grammar[i.rule][i.sub_rule][i.dot].second << "' before '" << lexem.getLexem() << "'\n";
+					out << "Missing lexem '" << grammar[i.rule][i.sub_rule][i.dot].second << "' before '" << lexem.getLexem() << "' on line " << info.second << '\n';
 				}
 				else if (grammar[i.rule][i.sub_rule][i.dot].first == "VAR") {
-					out << "Missing variable before '" << lexem.getLexem() << "'\n";
+					out << "Missing variable before '" << lexem.getLexem() << "' on line " << info.second << '\n';
 				}
 				else {
-					out << "Missing constant before '" << lexem.getLexem() << "'\n";
+					out << "Missing constant before '" << lexem.getLexem() << "' on line " << info.second << '\n';
 				}
 			}
 		}
 		else {
 			for (situation i : possible_sits) {
 				if (grammar[i.rule][i.sub_rule][i.dot].first != "VAR" && grammar[i.rule][i.sub_rule][i.dot].first != "CONST") {
-					out << "Assuming lexem '" << grammar[i.rule][i.sub_rule][i.dot].second << "' instead of '" << lexem.getLexem() << "'\n";
+					out << "Assuming lexem '" << grammar[i.rule][i.sub_rule][i.dot].second << "' instead of '" << lexem.getLexem() << "' on line " << info.second << '\n';
 				}
 				else if (grammar[i.rule][i.sub_rule][i.dot].first == "VAR") {
-					out << "Assuming variable instead of '" << lexem.getLexem() << "'\n";
+					out << "Assuming variable instead of '" << lexem.getLexem() << "' on line " << info.second << '\n';
 				}
 				else {
-					out << "Assuming constant instead of '" << lexem.getLexem() << "'\n";
+					out << "Assuming constant instead of '" << lexem.getLexem() << "' on line " << info.second << '\n';
 				}
 			}
 		}
 	}
 
-	void Handle_errors(std::vector<std::vector<situation>>& D, const token& lexem) {
+	void Handle_errors(std::vector<std::vector<situation>>& D, const std::pair<token, unsigned>& info) {
+		token lexem(info.first);
 		unsigned D_size = D.size();
 		std::vector<situation> possible_situations;
 		for (situation i : D[D_size - 2]) {
@@ -110,9 +113,9 @@ private:
 			Complete(D);
 		}
 		D.push_back(std::vector<situation>());
-		Scan(D, lexem, 0);
+		Scan(D, info, 0);
 		if (D[D.size() - 1].size() != 0) {
-			Out_errors(possible_situations, lexem, 1);
+			Out_errors(possible_situations, info, 1);
 		}
 		else {
 			D.pop_back();
@@ -125,12 +128,13 @@ private:
 					}
 				}
 			}
-			Out_errors(possible_situations, lexem, 0);
+			Out_errors(possible_situations, info, 0);
 		}
 
 	}
 
-	void Scan(std::vector<std::vector<situation>>& D, const token& lexem, bool not_error = 1) {
+	void Scan(std::vector<std::vector<situation>>& D, const std::pair<token, unsigned>& info, bool not_error = 1) {
+		token lexem(info.first);
 		unsigned D_size = D.size();
 		unsigned S_size = D[D_size - 1].size();
 		for (situation i : D[D_size - 2]) {
@@ -150,7 +154,7 @@ private:
 
 		if (not_error && S_size == D[D_size - 1].size()) {
 			correct = false;
-			Handle_errors(D, lexem);
+			Handle_errors(D, info);
 		}
 	}
 
@@ -199,7 +203,6 @@ private:
 	//	}
 	//}*/
 
-public:
 	std::vector<std::vector<situation>> algo_Erli() {
 		std::vector<std::vector<situation>> parse_list;
 		parse_list.push_back(std::vector<situation>());
@@ -211,13 +214,12 @@ public:
 			Complete(parse_list);
 		}
 
-		token last_lexm;
 		while(!lex.end()) {
 			token next_lexm(lex.next_lexem());
 			if (next_lexm.getLexem() == "") { break; }
-			last_lexm = next_lexm;
+			token_table.push_back({ next_lexm, lex.current_line() });
 			parse_list.push_back(std::vector<situation>());
-			Scan(parse_list, next_lexm);
+			Scan(parse_list, token_table[token_table.size()-1]);
 			Pars_set_size = 0;
 			while (Pars_set_size != parse_list[parse_list.size()-1].size()) {
 				Pars_set_size = parse_list[parse_list.size()-1].size();
@@ -237,17 +239,20 @@ public:
 		for (situation i : parse_list[parse_list.size() - 1]) {
 			if (i.dot != grammar[i.rule][i.sub_rule].size() && grammar[i.rule][i.sub_rule][i.dot].first != "N") {
 				out << "Missing lexem: '" << grammar[i.rule][i.sub_rule][i.dot].second << "' after '"
-					<< last_lexm.getLexem() << "'\n";
+					<< token_table[token_table.size()-1].first.getLexem()
+					<< "' on line " << token_table[token_table.size()-1].second << '\n';
 			}
 		}
 
 		return parse_list;
 	}
 
-	Node* buildTree(const std::vector<std::vector<situation>>& parse_list) {
+	public:
+	Node* buildTree() {
+		std::vector<std::vector<situation>> parse_list = this->algo_Erli();
 		if (correct) {
 			unsigned count_lexms = parse_list.size()-1;
-			Node* root = new Node("0");
+			Node* root = new Node(0);
 			situation start(0, 0, 1, 0);
 			R(root, parse_list, count_lexms, start);
 			return root;

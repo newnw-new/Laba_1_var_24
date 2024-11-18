@@ -9,7 +9,7 @@ class lexer {
 	std::ifstream read;
 	std::string output_file;
 	std::ofstream out;
-	int num_line = 1;
+	unsigned num_line = 1;
 	dfa lex_dfa{ 6, alp, fin_states_lex, trans_func_lex };
 	enum class states {Start, General, Oper};
 	char symbol; // текущий символ на котором остановился лексический анализатор
@@ -97,6 +97,10 @@ public:
 		}
 
 		return lexem;
+	}
+
+	unsigned current_line() {
+		return num_line;
 	}
 
 	bool end() {

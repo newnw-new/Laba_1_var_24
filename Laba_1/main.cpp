@@ -4,8 +4,8 @@
 
 int main() {
 	parser pr("Test_code.txt", "error.txt", my_gram);
-	pr.algo_Erli();
-	//Node* root = pr.buildTree(pr.algo_Erli());
-	//root->Show();
-	int a = 3;
+	Node* root = pr.buildTree();
+	if (root != nullptr) {
+		root->Show();
+	}
 }

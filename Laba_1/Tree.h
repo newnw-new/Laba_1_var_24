@@ -2,18 +2,19 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include "Token_table.h"
 
 
 class Node {
 public:
-	std::string name;
+	unsigned name;
 	std::vector<Node*> sons;
 public:
-	Node(const std::string name) :name{ name } {}
-	Node(const std::string name, const std::vector<Node*>& sons) :name{ name }, sons{sons}{}
+	Node(const unsigned name) :name{ name } {}
+	Node(const unsigned name, const std::vector<Node*>& sons) :name{ name }, sons{sons}{}
 	
 
-	std::string getName() {
+	unsigned getName() {
 		return this->name;
 	}
 
@@ -29,7 +30,7 @@ public:
 	void Show(std::string tab = "") {
 		for (int i = 0; i < sons.size()/2; ++i) {
 			if (sons[i]->getChildren().size() == 0) {
-				std::cout << tab << "	" << sons[i]->getName() << '\n';
+				std::cout << tab << "	'" << token_table[sons[i]->getName()].first.getLexem() << "'\n";
 			}
 			else {
 				std::string new_tab = tab + "	";
@@ -41,7 +42,7 @@ public:
 
 		for (int i = sons.size()/2; i < sons.size(); ++i) {
 			if (sons[i]->getChildren().size() == 0) {
-				std::cout << tab << "	" << sons[i]->getName() << '\n';
+				std::cout << tab << "	'" << token_table[sons[i]->getName()].first.getLexem() << "'\n";
 			}
 			else {
 				std::string new_tab = tab + "	";

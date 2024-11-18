@@ -1,38 +1,38 @@
 ﻿  main.cpp
-C:\Users\kibor\source\repos\Laba_1\Laba_1\Tree.h(42,14): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\kibor\source\repos\Laba_1\Laba_1\Tree.h(43,14): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
-C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(41,14): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(42,14): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
-C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(92,19): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(95,19): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
-C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(108,36): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(111,36): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
-C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(134,19): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(138,19): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
-C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(135,19): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(139,19): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
-C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(158,19): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(162,19): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
-C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(163,21): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(167,21): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
-C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(175,19): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(179,19): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
-C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(209,38): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(212,38): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
-C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(223,57): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(225,57): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
-C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(249,25): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(254,25): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
   Laba_1.vcxproj -> C:\Users\kibor\source\repos\Laba_1\x64\Debug\Laba_1.exe

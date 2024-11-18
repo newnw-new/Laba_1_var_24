@@ -1,3 +1,6 @@
-Missing lexem: 'end' after ';'
-Missing lexem: 'repeat' after ';'
-Missing lexem: 'value' after ';'
+Assuming lexem 'var' instead of 'var1' on line 3
+Missing lexem ';' before 'lupa' on line 5
+Missing lexem: 'end' after ';' on line 6
+Missing lexem: 'repeat' after ';' on line 6
+Missing lexem: 'value' after ';' on line 6
+undefined lexem "var1" on line : 3
