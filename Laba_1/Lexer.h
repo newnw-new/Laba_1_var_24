@@ -83,6 +83,10 @@ public:
 				read.get(symbol);
 		}
 
+		if (lexem == "") {
+			return lexem;
+		}
+
 		try {
 			if (!lex_dfa.isAccept(lexem)) {
 				out << "undefined lexem \"" << lexem << "\" on line : " << num_line << '\n';

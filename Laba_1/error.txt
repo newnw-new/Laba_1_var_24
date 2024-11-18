@@ -1,0 +1,3 @@
+Missing lexem: 'end' after ';'
+Missing lexem: 'repeat' after ';'
+Missing lexem: 'value' after ';'

@@ -211,8 +211,11 @@ public:
 			Complete(parse_list);
 		}
 
+		token last_lexm;
 		while(!lex.end()) {
 			token next_lexm(lex.next_lexem());
+			if (next_lexm.getLexem() == "") { break; }
+			last_lexm = next_lexm;
 			parse_list.push_back(std::vector<situation>());
 			Scan(parse_list, next_lexm);
 			Pars_set_size = 0;
@@ -220,6 +223,21 @@ public:
 				Pars_set_size = parse_list[parse_list.size()-1].size();
 				Predict(parse_list);
 				Complete(parse_list);
+			}
+		}
+
+		for (situation i : parse_list[parse_list.size() - 1]) {
+			situation finish(0, 0, 1, 0);
+			if (i == finish) {
+				return parse_list;
+			}
+		}
+
+		correct = false;
+		for (situation i : parse_list[parse_list.size() - 1]) {
+			if (i.dot != grammar[i.rule][i.sub_rule].size() && grammar[i.rule][i.sub_rule][i.dot].first != "N") {
+				out << "Missing lexem: '" << grammar[i.rule][i.sub_rule][i.dot].second << "' after '"
+					<< last_lexm.getLexem() << "'\n";
 			}
 		}
 
