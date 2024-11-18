@@ -30,7 +30,7 @@ std::vector<std::vector<std::vector<std::pair<std::string, std::string>>>> my_gr
 	{{"OP", "<>"}},
 	{{"OP", "<"}},
 	{{"OP", ">"}}}, // RelationOperator-> = | <> | < | > (15)
-	{{{"VAR", ""}}}, // Id -> id_name (16)
-	{{{"CONST", ""}}} // Const-> id_num (17)
+	{{{"VAR", "value"}}}, // Id -> id_name (16)
+	{{{"CONST", "const"}}} // Const-> id_num (17)
 };
 

@@ -2,6 +2,6 @@ procedure Main;
 begin
 var 
 giga, pupa: integer;
-lupa integer;
-repeat pupa := (5 + 7) a2 ; until pupa <> lupa;
+lupa: integer;
+repeat pupa := (5 + 7) ; until pupa <> lupa;
 end

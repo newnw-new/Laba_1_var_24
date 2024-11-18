@@ -1,7 +1,0 @@
-Missing lexem ':=' before 'integer'
-Missing lexem ',' before 'integer'
-Missing lexem ':' before 'integer'
-Assuming lexem '+' instead of 'a2'
-Assuming lexem '-' instead of 'a2'
-Assuming lexem ';' instead of 'a2'
-undefined lexem "a2" on line : 6

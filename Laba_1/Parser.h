@@ -4,6 +4,7 @@
 #include <string>
 #include "Situation.h"
 #include <fstream>
+#include "Tree.h"
 
 
 class parser {
@@ -15,6 +16,7 @@ class parser {
 		<std::pair<std::string, std::string>>>> grammar;
 	lexer lex;
 	std::ofstream out;
+	bool correct = true;
 
 public:
 
@@ -33,6 +35,28 @@ private:
 			}
 		}
 		return false;
+	}
+
+	void R(Node* root, const std::vector<std::vector<situation>>& parse_list, unsigned& count_lexms, const situation& a) {
+		for (int i = grammar[a.rule][a.sub_rule].size()-1; i >= 0; --i) {
+			if (grammar[a.rule][a.sub_rule][i].first == "N") {
+				int rule = stoi(grammar[a.rule][a.sub_rule][i].second);
+				for (situation j : parse_list[count_lexms]) {
+					if (j.rule == rule && j.dot == grammar[j.rule][j.sub_rule].size()) {
+						Node* son = new Node(grammar[a.rule][a.sub_rule][i].second);
+						root->add(son);
+						std::vector<Node*> children = root->getChildren();
+						R(children[children.size() - 1], parse_list, count_lexms, j);
+					}
+				}
+			}
+			else
+			{
+				Node* son = new Node(grammar[a.rule][a.sub_rule][i].second);
+				root->add(son);
+				count_lexms--;
+			}
+		}
 	}
 
 	void Out_errors(const std::vector<situation>& possible_sits, const token& lexem, const bool mode) {
@@ -125,6 +149,7 @@ private:
 		}
 
 		if (not_error && S_size == D[D_size - 1].size()) {
+			correct = false;
 			Handle_errors(D, lexem);
 		}
 	}
@@ -199,5 +224,18 @@ public:
 		}
 
 		return parse_list;
+	}
+
+	Node* buildTree(const std::vector<std::vector<situation>>& parse_list) {
+		if (correct) {
+			unsigned count_lexms = parse_list.size()-1;
+			Node* root = new Node("0");
+			situation start(0, 0, 1, 0);
+			R(root, parse_list, count_lexms, start);
+			return root;
+		}
+		else {
+			return nullptr;
+		}
 	}
 };
