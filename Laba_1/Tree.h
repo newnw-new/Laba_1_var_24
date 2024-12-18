@@ -28,7 +28,7 @@ public:
 	}
 
 	void Show(std::string tab = "") {
-		for (int i = 0; i < sons.size()/2; ++i) {
+		for (int i = 0; i < (sons.size()/2 + sons.size()%2); ++i) {
 			if (sons[i]->getChildren().size() == 0) {
 				std::cout << tab << "	'" << token_table[sons[i]->getName()].first.getLexem() << "'\n";
 			}
@@ -40,7 +40,7 @@ public:
 		
 		std::cout << tab << name << '\n';
 
-		for (int i = sons.size()/2; i < sons.size(); ++i) {
+		for (int i = (sons.size() / 2 + sons.size() % 2); i < sons.size(); ++i) {
 			if (sons[i]->getChildren().size() == 0) {
 				std::cout << tab << "	'" << token_table[sons[i]->getName()].first.getLexem() << "'\n";
 			}

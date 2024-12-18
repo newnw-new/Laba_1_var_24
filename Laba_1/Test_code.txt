@@ -1,6 +1,7 @@
 procedure Main;
 begin
-var1 
-giga, pupa: integer
-lupa: integer;
-repeat pupa := (5 + 7) ; until pupa <> lupa;
+var 
+g, p: integer;
+lu: integer;
+repeat p := (5 + 7) ; until p <> lu;
+end

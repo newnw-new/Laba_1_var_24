@@ -131,6 +131,7 @@
     <ClInclude Include="dfa_parametrs.h" />
     <ClInclude Include="Grammar_params.h" />
     <ClInclude Include="hashTable.h" />
+    <ClInclude Include="Semantic.h" />
     <ClInclude Include="Token_table.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Lexer.h" />
