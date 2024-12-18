@@ -1,9 +1,10 @@
 procedure Main;
 begin
 var 
-g, p: integer;
+g, p, i: integer;
 lu: integer;
 repeat p := (5 + 7) ; 
 repeat g := p + 2; until g < 100;
+repeat i := l +3; until i < 50;
 until p <> 5;
 end

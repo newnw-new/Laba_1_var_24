@@ -13,24 +13,17 @@ class Semantic {
 	std::map<std::string, bool> states = { std::pair<std::string, bool>{"Decl", 0},
 	std::pair<std::string, bool>{"Decl_F", 0},
 	std::pair<std::string, bool>{"Assing", 0},
-	std::pair<std::string, bool>{"Cycle", 0},
 	std::pair<std::string, bool>{"Condition", 0}, };
 	Node* root;
-	std::vector <std::vector
-		<std::vector
-		<std::pair<std::string, std::string>>>> grammar;
 	std::string out_file;
 	std::ofstream out;
 	unsigned counter = 0;
-	unsigned m_num = 0;
+	long long m_num = -2;
 	std::stack<std::string> st;
-	//std::queue<std::string> cycle_operations;
+	std::stack<unsigned> cyrcles;
 	
 public:
-	Semantic(Node* root, const std::vector <std::vector
-		<std::vector
-		<std::pair<std::string, std::string>>>> grammar,
-		const std::string out_file, const bool add_or_not = 0) : root{ root }, grammar{ grammar },
+	Semantic(Node* root, const std::string out_file, const bool add_or_not = 0) : root{ root },
 		out_file{ out_file }, out{ out_file, add_or_not ? std::ios::app : std::ios::out } {}
 
 
@@ -65,7 +58,23 @@ private:
 					counter++;
 				}
 				else {
-					if (states["Assing"] == 0 && states["Condition"] == 0) {
+					if (symbol_table.find(leef.getLexem()) == symbol_table.end()) {
+						out << "an uncreated variable " << leef.getLexem() << " is used on line "
+							<< token_table[root->getName()].second << '\n';
+						correct = false;
+						postfix_write.clear();
+					}
+					else if (states["Condition"] == 1 && symbol_table[leef.getLexem()] == false) {
+						out << "an uninitialized variable " << leef.getLexem() << " is used on line "
+							<< token_table[root->getName()].second << '\n';
+						correct = false;
+						postfix_write.clear();
+					}
+					else {
+						postfix_write.push_back(leef.getLexem());
+						states["Condition"] = 1;
+					}
+					/*if (states["Assing"] == 0 && states["Condition"] == 0) {
 						if (symbol_table.find(leef.getLexem()) != symbol_table.end()) {
 							postfix_write.push_back(leef.getLexem());
 							states["Assing"] = 1;
@@ -93,7 +102,7 @@ private:
 							correct = false;
 							postfix_write.clear();
 						}
-					}
+					}*/
 				}
 			}
 			else if (leef.getLexem() == "integer") {
@@ -150,44 +159,30 @@ private:
 						st.pop();
 						symbol_table[st.top()] = true;
 						st.pop();
-						states["Assing"] = 0;
+						states["Condition"] = 0;
 					}
 					else if(!st.empty()){
 						postfix_write.push_back(st.top());
 						st.pop();
 						states["Condition"] = 0;
-						postfix_write.push_back("m" + std::to_string(counter));
+						postfix_write.push_back("m" + std::to_string(cyrcles.top()+1));
 						postfix_write.push_back("BF");
-						postfix_write.push_back("m" + std::to_string(counter - 1));
+						postfix_write.push_back("m" + std::to_string(cyrcles.top()));
 						postfix_write.push_back("BRL");
-						postfix_write.push_back("m" + std::to_string(counter));
+						postfix_write.push_back("m" + std::to_string(cyrcles.top()+1));
 						postfix_write.push_back("DEFL\n");
+						cyrcles.pop();
 					}
 				}
 			}
 			else if (leef.getLexem() == "repeat") {
-				if (states["Cycle"] == 1) {
-					m_num += 2;
-					counter = m_num;
-				}
-				else {
-					m_num += counter % 2;
-					counter = m_num;
-					states["Cycle"] = 1;
-				}
-				postfix_write.push_back("m" + std::to_string(counter));
+				m_num += 2;
+				cyrcles.push(m_num);
+				postfix_write.push_back("m" + std::to_string(cyrcles.top()));
 				postfix_write.push_back("DEFL");
 			}
 			else if (leef.getLexem() == "until") {
-				if (counter % 2 == 0) {
-					m_num++;
-					counter++;
-				}
-				else {
-					counter -= 2;
-				}
 				states["Condition"] = 1;
-				states["Cycle"] = 0;
 			}
 			else if (leef.getLexem() == "begin") {
 				postfix_write.push_back("FBEGIN\n");
