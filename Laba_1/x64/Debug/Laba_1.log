@@ -1,6 +1,4 @@
-﻿  dfa.cpp
-C:\Users\kibor\source\repos\Laba_1\Laba_1\dfa.cpp(123,21): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-  main.cpp
+﻿  main.cpp
 C:\Users\kibor\source\repos\Laba_1\Laba_1\Tree.h(43,14): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
@@ -37,5 +35,4 @@ C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(225,57): warning C4267: =: п
 C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(254,25): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
-  Создание кода...
   Laba_1.vcxproj -> C:\Users\kibor\source\repos\Laba_1\x64\Debug\Laba_1.exe

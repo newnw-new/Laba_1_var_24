@@ -4,7 +4,7 @@
 
 std::vector<std::vector<std::vector<std::pair<std::string, std::string>>>> my_gram = {
 	{{{"N", "1"}}}, //S'->Procedure (0)
-	{{{"N", "2"}, {"N", "5"}, {"N","10"}, {"N", "3"}}}, //Procedure->Begin Description Operators End (1)
+	{{{"N", "2"}, {"N", "5"}, {"N","10"}, {"N", "3"}}}, //Procedure->Begin Descriptions Operators End (1)
 	{{{"KEYWORD","procedure"}, {"N", "4"}, {"SEP",";"}, {"KEYWORD","begin"}}}, //Begin->procedure ProcedureName ; begin (2)
 	{{{"KEYWORD","end"}}}, //End->end (3)
 	{{{"N","16"}}}, //ProcedureName->Id (4)

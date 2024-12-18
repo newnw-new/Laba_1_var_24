@@ -3,5 +3,7 @@ begin
 var 
 g, p: integer;
 lu: integer;
-repeat p := (5 + 7) ; until p <> lu;
+repeat p := (5 + 7) ; 
+repeat g := p + 2; until g < 100;
+until p <> 5;
 end
