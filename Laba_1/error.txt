@@ -1,1 +1,1 @@
-an uncreated variable l is used on line 8
+an re-declared variable lu on line 6

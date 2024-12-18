@@ -35,7 +35,7 @@ C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(225,57): warning C4267: =: п
 C:\Users\kibor\source\repos\Laba_1\Laba_1\Parser.h(254,25): warning C4267: инициализация: преобразование из "size_t" в "unsigned int"; возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
-C:\Users\kibor\source\repos\Laba_1\Laba_1\Semantic.h(180,18): warning C4244: аргумент: преобразование "__int64" в "unsigned int", возможна потеря данных
+C:\Users\kibor\source\repos\Laba_1\Laba_1\Semantic.h(157,18): warning C4244: аргумент: преобразование "__int64" в "unsigned int", возможна потеря данных
   (компиляция исходного файла "main.cpp")
   
   Laba_1.vcxproj -> C:\Users\kibor\source\repos\Laba_1\x64\Debug\Laba_1.exe

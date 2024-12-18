@@ -12,7 +12,6 @@
 class Semantic {
 	std::map<std::string, bool> states = { std::pair<std::string, bool>{"Decl", 0},
 	std::pair<std::string, bool>{"Decl_F", 0},
-	std::pair<std::string, bool>{"Assing", 0},
 	std::pair<std::string, bool>{"Condition", 0}, };
 	Node* root;
 	std::string out_file;
@@ -29,7 +28,6 @@ public:
 
 private:
 	void Bypass_Tree(Node* root, std::vector<std::string>& postfix_write, bool &correct) {
-		//if (root->getName() == 5) { states["Decl"] = 1; }
 
 		if (root->getChildren().size() != 0) {
 			if (root->getName() == 5) { states["Decl"] = 1; }
@@ -53,9 +51,17 @@ private:
 					states["Decl_F"] = 0;
 				}
 				else if (states["Decl"] == 1) {
-					symbol_table.insert(std::pair<std::string, bool>{leef.getLexem(), false});
-					postfix_write.push_back(leef.getLexem());
-					counter++;
+					if (symbol_table.find(leef.getLexem()) == symbol_table.end()) {
+						symbol_table.insert(std::pair<std::string, bool>{leef.getLexem(), false});
+						postfix_write.push_back(leef.getLexem());
+						counter++;
+					}
+					else {
+						out << "an re-declared variable " << leef.getLexem() << " on line "
+							<< token_table[root->getName()].second << '\n';
+						correct = false;
+						postfix_write.clear();
+					}
 				}
 				else {
 					if (symbol_table.find(leef.getLexem()) == symbol_table.end()) {
@@ -74,35 +80,6 @@ private:
 						postfix_write.push_back(leef.getLexem());
 						states["Condition"] = 1;
 					}
-					/*if (states["Assing"] == 0 && states["Condition"] == 0) {
-						if (symbol_table.find(leef.getLexem()) != symbol_table.end()) {
-							postfix_write.push_back(leef.getLexem());
-							states["Assing"] = 1;
-						}
-						else {
-							out << "an uninitialized variable is used on line " << token_table[root->getName()].second
-								<< '\n';
-							correct = false;
-							postfix_write.clear();
-						}
-					}
-					else {
-						if (symbol_table.find(leef.getLexem()) != symbol_table.end() && symbol_table[leef.getLexem()] != false) {
-							postfix_write.push_back(leef.getLexem());
-						}
-						else if (symbol_table.find(leef.getLexem()) != symbol_table.end()) {
-							out << "an uninitialized variable " << leef.getLexem() << " is used on line "
-								<< token_table[root->getName()].second << '\n';
-							correct = false;
-							postfix_write.clear();
-						}
-						else {
-							out << "an uncreated variable " << leef.getLexem() << " is used on line " << token_table[root->getName()].second
-								<< '\n';
-							correct = false;
-							postfix_write.clear();
-						}
-					}*/
 				}
 			}
 			else if (leef.getLexem() == "integer") {
