@@ -4,12 +4,12 @@
 #include "fstream"
 #include <stack>
 #include <map>
-#include <queue>
 #include "Token_table.h"
-#include "SymbolTable.h"
+//#include "SymbolTable.h"
 
 
 class Semantic {
+	std::map<std::string, bool> symbol_table;
 	std::map<std::string, bool> states = { std::pair<std::string, bool>{"Decl", 0},
 	std::pair<std::string, bool>{"Decl_F", 0},
 	std::pair<std::string, bool>{"Condition", 0}, };
